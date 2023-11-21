@@ -1,0 +1,26 @@
+{
+  "name": "formulario",
+  "version": "1.0.0",
+  "description": "projeto para manipulacao dos parâmetros da url via formulario html",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "(https://github.com/andressafs27/validacao.git)"
+  },
+  "keywords": [
+    "node",
+    "aprender",
+    "formulario"
+  ],
+  "author": "Andressa Farias",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {}
+}

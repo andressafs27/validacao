@@ -1,10 +1,6 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import cookieParser from 'cookie-parser';
-import session from 'express-session';
-
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -248,36 +244,14 @@ function processarCadastroUsuario(requisicao, resposta) {
     }
 }
 
-function autenticar(requisicao, resposta, next){
-   if(requisicao.session.usuarioAutenticado){
-    next();
-   } 
-   else{
-    resposta.redirect("/login.html");
-   }
-}
-
 const app = express();
-app.use(cookieParser());
-app.use(session({
-    secret: "palavraSecreta",
-    resave: true,
-    saveUninitialized: true,
-    cookie:{
-        maxAge: 1000 * 60 * 15
-    }
-}));
-
 app.use(express.urlencoded({extend: true}));
 app.use(express.static('./paginas'));
 //app.use(express.static(path.join(process.cwd(),'./paginas')));
 
 
 
-app.get('/',autenticar, (requisicao, resposta) => {
-    const DataUltimoAcesso = requisicao.cookies.DataUltimoAcesso;
-    const data = new Date();
-    resposta.cookie("DataUltimoAcesso", data.toLocaleTimeString(), {maxAge: 1000 * 60 * 60 * 24 * 30 , httpOnly: true});
+app.get('/', (requisicao, resposta) => {
     resposta.end(
         `
         <!DOCTYPE html>
@@ -328,47 +302,18 @@ app.get('/',autenticar, (requisicao, resposta) => {
                     <li><a href="cadastra.html">Cadastrar Usuário</a></li>
                 </ul>
             </body>
-            <footer>
-                <p>Seu último acesso foi em ${DataUltimoAcesso}</p>
-            </footer>
         </html>
     `
     )
 });
 
-app.post('/login', (requisicao, resposta) => {
-    const usuario = requisicao.body.usuario;
-    const senha = requisicao.body.senha;
-    if(usuario && senha && (usuario === 'andressa') && (senha === '123')){
-        requisicao.session.usuarioAutenticado = true;
-        resposta.redirect('/');
-    }
-    else{
-        resposta.end(
-        `
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    <meta charset="utf-8">
-                    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-                    <title>Falha de Autentificação</title>
-                    <meta name='viewport' content='width=device-width, initial-scale=1'>
-                    <body>
-                        <h1>Usuário ou Senha Inválidos</h1>
-                        <a href="/login.html">Voltar ao Login</a>
-                    </body>
-            </html>
-        `
-        )
-    }
-});
 
 app.post('/cadastra.html', (requisicao, resposta) => {
     resposta.sendFile(__dirname + '/paginas/cadastra.html');
 });
 
 
-app.post('/cadastra',autenticar, processarCadastroUsuario);
+app.post('/cadastra', processarCadastroUsuario);
 
 app.listen(porta, host, () => {
     console.log(`Servidor executando na url http://${host}:${porta}`);

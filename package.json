@@ -1,7 +1,7 @@
 {
-  "name": "formulario",
+  "name": "fcookies",
   "version": "1.0.0",
-  "description": "projeto para manipulacao dos parâmetros da url via formulario html",
+  "description": "cookies e sessão",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -10,17 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "(https://github.com/andressafs27/validacao.git)"
+    "url": "(https://github.com/andressafs27/cookies.git)"
   },
   "keywords": [
     "node",
     "aprender",
-    "formulario"
+    "cookies"
   ],
   "author": "Andressa Farias",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
-  },
-  "devDependencies": {}
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "session": "^0.1.0"
+  }
 }
